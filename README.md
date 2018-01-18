@@ -1,6 +1,6 @@
 # simple-metrics
 Simple tool to add metrics for your go program.
-- Import and use no config
+- Import and use
 - Export to json
 - Use ":" as event seperator
 - Can use EventValue to store a float64 to slice as event(could be used to calculate average or total sum)

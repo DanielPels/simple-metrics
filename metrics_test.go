@@ -3,7 +3,6 @@ package metrics
 import (
 	"time"
 	"testing"
-	"fmt"
 )
 
 const sleepTime = 50

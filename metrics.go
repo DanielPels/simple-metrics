@@ -48,6 +48,13 @@ func addEvent(e interface{}) {
 		split = strings.Split(e.(string), ":")
 	}
 
+	for _, v := range split {
+		if v == "" {
+			fmt.Println("event contains empty string")
+			return
+		}
+	}
+
 	if len(split) == 1 {
 		if isStruct {
 			if events[split[0]] == nil {

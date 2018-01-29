@@ -3,6 +3,7 @@ package metrics
 import (
 	"time"
 	"testing"
+	"fmt"
 )
 
 const sleepTime = 50
@@ -177,6 +178,29 @@ func TestMultipleDepthOfMultipleEventValue(t *testing.T) {
 	}
 }
 
+func TestInvalidEventString(t *testing.T) {
+	expectedResult := string(`{}`)
+
+	ClearEvents()
+
+	Event("::")
+	Event("hello:")
+	Event(":hello")
+	Event("depth0:depth1::depth2")
+
+	time.Sleep(time.Millisecond * sleepTime)
+
+	b, err := ExportJson()
+	if err != nil {
+		t.Error("TestInvalidEventString: export json")
+		return
+	}
+
+	if string(b) != expectedResult {
+		t.Error("TestInvalidEventString invalid return. Got: " + string(b) + " Should be: " + expectedResult)
+	}
+}
+
 func TestFinal(t *testing.T) {
 	expectedResult := string(`{"depth1":{"depth2":2,"other":2},"hello":1,"life":[42,-180],"test":2,"valueDepth1":{"other1":[872,-48],"valueDepth2":[-99,273]}}`)
 
@@ -196,6 +220,8 @@ func TestFinal(t *testing.T) {
 	EventValue("valueDepth1:valueDepth2", 273)
 	EventValue("valueDepth1:other1", 872)
 	EventValue("valueDepth1:other1", -48)
+
+	Event("::")
 
 	time.Sleep(time.Millisecond * sleepTime)
 
